@@ -1,0 +1,194 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Doctor Dashboard
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="ehr.css ">
+ </head>
+ <header class="bg-purple-700 text-white p-4 flex justify-between items-center"style="margin-left:70px;">
+    <div class="text-lg font-bold">EHR Hospital</div>
+    <button id="menu-button" class="text-2xl focus:outline-none md:hidden">
+        <i class="fas fa-bars"></i>
+    </button>
+</header>
+ <body class="bg-gray-100">
+  <div class="flex">
+   <!-- Sidebar -->
+   <div id="sidebar" class="sidebar">
+    <!-- Hamburger menu inside the sidebar -->
+    <span class="open-btn" onclick="toggleNav()">&#9776;</span>
+    <a href="yog.html"><i class="icon">🧘</i><span class="text">Dashboard</span></a>
+    <a href="bmi.html"><i class="icon">💪</i><span class="text">Doctor</span></a>
+    <a href="sub.html"><i class="icon">📖</i><span class="text">Appointments</span></a>
+    <a href="product.html"><i class="icon">📜</i><span class="text">Products</span></a>
+    <a href="login.html"><i class="icon">🔐</i><span class="text">Sign In</span></a>
+    
+</div>
+
+   <div class="w-3/4" style="margin-left: 200px;margin-right: 120px;">
+   
+    <div class="bg-white p-6 shadow-lg">
+     <div class="flex items-center mb-6">
+      <img alt="Profile picture of the doctor" class="w-24 h-24 rounded-full mr-6" height="100" id="doctorImage" src="https://storage.googleapis.com/a1aa/image/5U_05kWDAdhNS9iUoQY3pwOk_wdmCKIT-aDR57H0Il0.jpg" width="100"/>
+      <div class="flex-1">
+       <p class="text-green-600 font-mono" id="docId">
+        DocID:
+        <!-- DocID from backend -->
+       </p>
+       <p class="text-gray-700">
+        <strong>
+         Full Name:
+        </strong>
+        <span id="fullName">
+         <!-- Full Name from backend -->
+        </span>
+       </p>
+       <p class="text-gray-700">
+        <strong>
+         Date of Joining:
+        </strong>
+        <span id="dateOfJoining">
+         <!-- Date of Joining from backend -->
+        </span>
+       </p>
+       <p class="text-gray-700">
+        <strong>
+         Speciality:
+        </strong>
+        <span id="speciality">
+         <!-- Speciality from backend -->
+        </span>
+       </p>
+      </div>
+      <div class="text-right">
+       <p class="text-gray-700">
+        <strong>
+         Email:
+        </strong>
+        <span id="email">
+         <!-- Email from backend -->
+        </span>
+       </p>
+       <p class="text-gray-700">
+        <strong>
+         Phone:
+        </strong>
+        <span id="phone">
+         <!-- Phone from backend -->
+        </span>
+       </p>
+       <p class="text-gray-700">
+        <strong>
+         City:
+        </strong>
+        <span id="city">
+         <!-- City from backend -->
+        </span>
+       </p>
+       <p class="text-gray-700">
+        <strong>
+         State:
+        </strong>
+        <span id="state">
+         <!-- State from backend -->
+        </span>
+       </p>
+      </div>
+      <button class="ml-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+       <i class="fas fa-edit">
+       </i>
+       Edit
+      </button>
+     </div>
+     <h3 class="text-xl font-bold mb-4">
+      Appointments
+     </h3>
+     <table class="w-full table-auto">
+      <thead>
+       <tr class="bg-gray-200">
+        <th class="px-4 py-2">
+         #
+        </th>
+        <th class="px-4 py-2">
+         Patient
+        </th>
+        <th class="px-4 py-2">
+         Date
+        </th>
+        <th class="px-4 py-2">
+         Time
+        </th>
+        <th class="px-4 py-2">
+         Status
+        </th>
+       </tr>
+      </thead>
+      <tbody id="appointmentsTable">
+       <!-- Appointments from backend -->
+      </tbody>
+     </table>
+    </div>
+   </div>
+  </div>
+  <script>
+   // Example data from backend
+    const doctorData = {
+        docId: "0x63Ef84C7d5985c6D3437b84cfa47EE50AA6D2e3f",
+        fullName: "Jane Doe",
+        dateOfJoining: "2022-03-10T00:00:00Z",
+        speciality: "Podiatrists",
+        email: "test_name@mail.com",
+        phone: "",
+        city: "city",
+        state: "state",
+        imageUrl: "https://placehold.co/100x100"
+    };
+
+    const appointments = [
+        {
+            id: 1,
+            patientName: "Patient1 PP",
+            patientId: "0x8eCE6178eFC52b7501736377aB7E810b2D5A93C8",
+            date: "2022-03-04",
+            time: "14:44:00",
+            status: "Consulted"
+        }
+    ];
+
+    // Populate doctor data
+    document.getElementById('docId').textContent = `DocID: ${doctorData.docId}`;
+    document.getElementById('fullName').textContent = doctorData.fullName;
+    document.getElementById('dateOfJoining').textContent = doctorData.dateOfJoining;
+    document.getElementById('speciality').textContent = doctorData.speciality;
+    document.getElementById('email').textContent = doctorData.email;
+    document.getElementById('phone').textContent = doctorData.phone;
+    document.getElementById('city').textContent = doctorData.city;
+    document.getElementById('state').textContent = doctorData.state;
+    document.getElementById('doctorImage').src = doctorData.imageUrl;
+
+    // Populate appointments
+    const appointmentsTable = document.getElementById('appointmentsTable');
+    appointments.forEach((appointment, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="border px-4 py-2">${index + 1}</td>
+            <td class="border px-4 py-2">
+                <p>${appointment.patientName}</p>
+                <p class="text-xs text-gray-500">${appointment.patientId}</p>
+            </td>
+            <td class="border px-4 py-2">${appointment.date}</td>
+            <td class="border px-4 py-2">${appointment.time}</td>
+            <td class="border px-4 py-2">${appointment.status}</td>
+        `;
+        appointmentsTable.appendChild(row);
+    });
+  </script>
+  <script src="ehr.js"></script>
+ </body>
+</html>
+
